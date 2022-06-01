@@ -16,13 +16,11 @@ namespace PhotoZone.Services;
 public class AuthServices : BaseService<User>, IAuthServices
 {
     private readonly IConfiguration _config;
-    private readonly IPasswordHasher _passwordHasher;
 
-
-    public AuthServices(AppDbContext dbContext, IMapper mapper,IConfiguration config, IPasswordHasher passwordHasher) : base(dbContext, mapper)
+    public AuthServices(AppDbContext dbContext, IMapper mapper,IConfiguration config) : base(dbContext, mapper)
     {
         _config = config;
-        _passwordHasher = passwordHasher;
+
     }
 
     public UserDto Auth(string email, string password)

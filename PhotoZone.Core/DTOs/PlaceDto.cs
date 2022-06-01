@@ -1,3 +1,5 @@
+using PhotoZone.Entities;
+
 namespace PhotoZone.Core.DTOs;
 
 public class PlaceDto
@@ -17,4 +19,6 @@ public class PlaceDto
     public LocationDto Location { get; set; }
 
     public  ICollection<ImagesDto> Images { get; set; }
+
+    public  ICollection<CommentDto> Comments { get; set; }
 }

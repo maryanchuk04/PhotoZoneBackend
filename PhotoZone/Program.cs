@@ -27,14 +27,13 @@ builder.Services.AddDbContext<AppDbContext>(options =>
 {
 
     options.UseSqlServer(
-        "Server=127.0.0.1;Database=PhotoZone;user id = sa; password = Maks010104;MultipleActiveResultSets=false");
+        "workstation id=PhotoZone.mssql.somee.com;packet size=4096;user id=Maks04_SQLLogin_1;pwd=lrkskmzymp;data source=PhotoZone.mssql.somee.com;persist security info=False;initial catalog=PhotoZone");
     options.EnableServiceProviderCaching(false);
 });
 builder.Services.AddHttpClient();
 builder.Services.AddScoped<IUserServices, UserService>();
 builder.Services.AddScoped<IAuthServices,AuthServices>();
 builder.Services.AddScoped<ISecurityContext, SecurityContext>();
-builder.Services.AddScoped<IPasswordHasher, PasswordHasher>();
 builder.Services.AddScoped<IPlaceService, PlaceService>();
 builder.Services.AddSingleton<IHttpContextAccessor, HttpContextAccessor>();
 builder.Services.AddScoped<ISubscribesService, SubscribesService>();

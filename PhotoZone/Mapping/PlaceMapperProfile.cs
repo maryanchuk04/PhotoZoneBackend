@@ -1,3 +1,4 @@
+using System.Security;
 using AutoMapper;
 using PhotoZone.Core.DTOs;
 using PhotoZone.Entities;
@@ -16,7 +17,8 @@ public class PlaceMapperProfile : Profile
             .ForMember(dest => dest.Description, opts => opts.MapFrom(src => src.Description))
             .ForMember(dest => dest.Rate, opts => opts.MapFrom(src => src.Rate))
             .ForMember(dest => dest.Images, opts => opts.MapFrom(src => MapImages(src)))
-            .ForMember(dest => dest.MainImage, opts => opts.MapFrom(src => src.MainImage));
+            .ForMember(dest => dest.MainImage, opts => opts.MapFrom(src => src.MainImage))
+            .ForMember(dest => dest.Comments, opts => opts.MapFrom(src => src.Comments));
 
         CreateMap<PlaceViewModel, PlaceDto>()
             .ForMember(dest => dest.Location, opts => opts.MapFrom(src => MapLocation(src)))
@@ -35,6 +37,16 @@ public class PlaceMapperProfile : Profile
             .ForMember(dest => dest.Rate, opts => opts.MapFrom(src => src.Rate))
             .ForMember(dest => dest.Images, opts => opts.MapFrom(src => MapImages(src)))
             .ForMember(dest => dest.MainImage, opts => opts.MapFrom(src => src.MainImage));
+
+        CreateMap<PlaceDto, PlaceViewModel>()
+            .ForMember(dest => dest.Location, opts => opts.MapFrom(src => MapLocation(src)))
+            .ForMember(dest => dest.Owner, opts => opts.MapFrom(src => src.Owner))
+            .ForMember(dest => dest.Title, opts => opts.MapFrom(src => src.Title))
+            .ForMember(dest => dest.Description, opts => opts.MapFrom(src => src.Description))
+            .ForMember(dest => dest.Rating, opts => opts.MapFrom(src => src.Rate))
+            .ForMember(dest => dest.Images, opts => opts.MapFrom(src => MapImages(src)))
+            .ForMember(dest => dest.MainImage, opts => opts.MapFrom(src => src.MainImage))
+            .ForMember(dest => dest.Comments, opts => opts.MapFrom(src => MapComments(src)));
 
     }
 
@@ -146,4 +158,23 @@ public class PlaceMapperProfile : Profile
 
         return null;
     }
+
+    private static List<string> MapComments(PlaceDto placeDto)
+    {
+        if (placeDto.Comments.Count == 0)
+        {
+            return null;
+        }
+
+        List<string> comments = new List<string>();
+
+        foreach (var comment in placeDto.Comments)
+        {
+            comments.Add(comment.CommentText);
+        }
+
+        return comments;
+    }
+
+
 }

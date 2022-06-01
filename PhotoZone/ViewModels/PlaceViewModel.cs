@@ -15,4 +15,6 @@ public class PlaceViewModel
     public LocationViewModel Location { get; set; }
 
     public string Description { get; set; }
+
+    public List<string> Comments { get; set; }
 }

@@ -23,7 +23,9 @@ public class PlaceController : ControllerBase
     [HttpGet("[action]")]
     public IActionResult GetAllPlaces()
     {
-        return Ok(_placeService.GetAllPlaces());
+        var res = _placeService.GetAllPlaces();
+
+        return Ok(_mapper.Map<List<PlaceDto>,List<PlaceViewModel>>(res));
     }
 
     [HttpGet("[action]/{id}")]
