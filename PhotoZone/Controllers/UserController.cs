@@ -169,4 +169,13 @@ public class UserController : ControllerBase
         }
     }
 
+    [HttpGet("[action]/{id}")]
+    public IActionResult GetUserInfoById(Guid id)
+    {
+        var res = _userServices.GetUserInfoById(id);
+
+        return Ok(_mapper.Map<UserDto, UserViewModel>(res));
+    }
+
+
 }

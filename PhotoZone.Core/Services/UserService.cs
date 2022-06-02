@@ -134,7 +134,6 @@ public class UserService : BaseService<User>, IUserServices
         var userId = _securityContext.GetCurrentUserId();
 
         var user = Context.Users
-            .Include(x => x.Location)
             .Include(x=>x.Subscribes)
             .Include(x => x.Subscrioptions)
             .FirstOrDefault(x => x.Id==userId);
@@ -146,6 +145,11 @@ public class UserService : BaseService<User>, IUserServices
     public async Task AddNewSubscribe(Guid subscriberId)
     {
         var currentUser = CurrentUser();
+
+        var isExist = Context.Subscribtions.FirstOrDefault(x => x.SubscribtionId == subscriberId);
+        if (isExist != null)
+            throw new PhotoZoneException("You already subscribes for  this user");
+
 
         await _subscribtionService.AddNewSubscribtion(currentUser.Id,subscriberId);
         await _subscribesService.AddSubscriberForUser(currentUser.Id, subscriberId);

@@ -41,7 +41,8 @@ public class UserMapperProfile : Profile
             .ForMember(dest => dest.InstLink, opts => opts.MapFrom(src => src.InstLink))
             .ForMember(dest => dest.FacebookLink, opts => opts.MapFrom(src => src.FacebookLink))
             .ForMember(dest => dest.GitHubLink, opts => opts.MapFrom(src => src.GitHubLink))
-            .ForMember(dest => dest.TikTokLink, opts => opts.MapFrom(src => src.TikTokLink));
+            .ForMember(dest => dest.TikTokLink, opts => opts.MapFrom(src => src.TikTokLink))
+            .ForMember(dest => dest.Location, opts => opts.MapFrom(src => src.Location));
 
 
         CreateMap<UserDto, UserShortInfoViewModel>()
