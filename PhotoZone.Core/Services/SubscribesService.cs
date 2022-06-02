@@ -32,9 +32,14 @@ public class SubscribesService : BaseService<Subscribers> , ISubscribesService
 
     public List<Guid> GetAlSubscribers(Guid userId)
     {
-        var subscribers = Context.Subscribes.Where(x => x.SubscriberId == userId).ToList();
+        var subscribers = Context.Subscribes.Where(x => x.UserId == userId).ToList();
 
         var listIds = new List<Guid>();
+
+        if (subscribers.Count == 0)
+        {
+            return null;
+        }
 
         foreach (var id in subscribers)
         {

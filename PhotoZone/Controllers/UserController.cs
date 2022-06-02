@@ -157,7 +157,13 @@ public class UserController : ControllerBase
         try
         {
             var userId = _securityContext.GetCurrentUserId();
-            var users = _userServices.GetUsersByIds(_subscribesService.GetAlSubscribers(userId));
+            var res = _subscribesService.GetAlSubscribers(userId);
+            if (res == null)
+            {
+                List<Guid> arr = new List<Guid>();
+                return Ok(arr);
+            }
+            var users = _userServices.GetUsersByIds(res);
             return Ok(_mapper.Map<List<UserDto>, List<UserViewModel>>(users));
         }
         catch (PhotoZoneException e)
@@ -170,6 +176,7 @@ public class UserController : ControllerBase
     }
 
     [HttpGet("[action]/{id}")]
+    [AllowAnonymous]
     public IActionResult GetUserInfoById(Guid id)
     {
         var res = _userServices.GetUserInfoById(id);
