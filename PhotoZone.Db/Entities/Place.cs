@@ -8,7 +8,7 @@ public class Place
 
     public string Description { get; set; }
 
-    public string Owner { get; set; }
+    public Guid OwnerId { get; set; }
 
     public Guid? LocationId { get; set; }
 

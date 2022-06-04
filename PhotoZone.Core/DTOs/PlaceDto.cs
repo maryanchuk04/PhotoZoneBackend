@@ -12,7 +12,7 @@ public class PlaceDto
 
     public string MainImage { get; set; }
 
-    public string Owner { get; set; }
+    public Guid OwnerId { get; set; }
 
     public double Rate { get; set; }
 
@@ -21,4 +21,5 @@ public class PlaceDto
     public  ICollection<ImagesDto> Images { get; set; }
 
     public  ICollection<CommentDto> Comments { get; set; }
+
 }

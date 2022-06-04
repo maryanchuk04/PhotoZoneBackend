@@ -58,7 +58,11 @@ public class PlaceService : BaseService<Place> , IPlaceService
 
     public List<PlaceDto> GetAllPlaces()
     {
-        var places = Context.Places.ToList();
+        var places = Context.Places
+            .Include(x=>x.Images)
+            .Include(x=>x.Location)
+            .Include(x=>x.Comments)
+            .ToList();
 
         List<PlaceDto> resultList = new List<PlaceDto>();
 
@@ -68,5 +72,15 @@ public class PlaceService : BaseService<Place> , IPlaceService
         }
 
         return resultList;
+    }
+
+    public List<PlaceDto> GetAllPlacesByUserId(Guid id)
+    {
+        var places = Context.Places.Where(x=>x.OwnerId == id)
+            .Include(x=>x.Images)
+            .Include(x=>x.Location)
+            .ToList();
+
+        return Mapper.Map<List<PlaceDto>>(places);
     }
 }

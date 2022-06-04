@@ -12,8 +12,8 @@ using PhotoZone.EF;
 namespace PhotoZone.Db.Migrations
 {
     [DbContext(typeof(AppDbContext))]
-    [Migration("20220517034553_MadeNulable")]
-    partial class MadeNulable
+    [Migration("20220603102923_Ini2t")]
+    partial class Ini2t
     {
         protected override void BuildTargetModel(ModelBuilder modelBuilder)
         {
@@ -23,6 +23,29 @@ namespace PhotoZone.Db.Migrations
                 .HasAnnotation("Relational:MaxIdentifierLength", 128);
 
             SqlServerModelBuilderExtensions.UseIdentityColumns(modelBuilder, 1L, 1);
+
+            modelBuilder.Entity("PhotoZone.Entities.Comment", b =>
+                {
+                    b.Property<Guid>("Id")
+                        .ValueGeneratedOnAdd()
+                        .HasColumnType("uniqueidentifier");
+
+                    b.Property<string>("CommentText")
+                        .IsRequired()
+                        .HasColumnType("nvarchar(max)");
+
+                    b.Property<Guid>("PlaceId")
+                        .HasColumnType("uniqueidentifier");
+
+                    b.Property<Guid>("UserId")
+                        .HasColumnType("uniqueidentifier");
+
+                    b.HasKey("Id");
+
+                    b.HasIndex("PlaceId");
+
+                    b.ToTable("Comments");
+                });
 
             modelBuilder.Entity("PhotoZone.Entities.Images", b =>
                 {
@@ -75,15 +98,15 @@ namespace PhotoZone.Db.Migrations
                         .IsRequired()
                         .HasColumnType("nvarchar(max)");
 
-                    b.Property<Guid?>("ImagesId")
-                        .HasColumnType("uniqueidentifier");
-
                     b.Property<Guid?>("LocationId")
                         .HasColumnType("uniqueidentifier");
 
                     b.Property<string>("MainImage")
                         .IsRequired()
                         .HasColumnType("nvarchar(max)");
+
+                    b.Property<Guid>("OwnerId")
+                        .HasColumnType("uniqueidentifier");
 
                     b.Property<double>("Rate")
                         .HasColumnType("float");
@@ -99,10 +122,32 @@ namespace PhotoZone.Db.Migrations
                     b.ToTable("Places");
                 });
 
-            modelBuilder.Entity("PhotoZone.Entities.Subscribes", b =>
+            modelBuilder.Entity("PhotoZone.Entities.Subscribers", b =>
                 {
                     b.Property<Guid>("Id")
                         .ValueGeneratedOnAdd()
+                        .HasColumnType("uniqueidentifier");
+
+                    b.Property<Guid>("SubscriberId")
+                        .HasColumnType("uniqueidentifier");
+
+                    b.Property<Guid>("UserId")
+                        .HasColumnType("uniqueidentifier");
+
+                    b.HasKey("Id");
+
+                    b.HasIndex("UserId");
+
+                    b.ToTable("Subscribes");
+                });
+
+            modelBuilder.Entity("PhotoZone.Entities.Subscribtions", b =>
+                {
+                    b.Property<Guid>("Id")
+                        .ValueGeneratedOnAdd()
+                        .HasColumnType("uniqueidentifier");
+
+                    b.Property<Guid>("SubscribtionId")
                         .HasColumnType("uniqueidentifier");
 
                     b.Property<Guid?>("UserId")
@@ -112,7 +157,7 @@ namespace PhotoZone.Db.Migrations
 
                     b.HasIndex("UserId");
 
-                    b.ToTable("Subscribes");
+                    b.ToTable("Subscribtions");
                 });
 
             modelBuilder.Entity("PhotoZone.Entities.User", b =>
@@ -135,17 +180,26 @@ namespace PhotoZone.Db.Migrations
                         .IsRequired()
                         .HasColumnType("nvarchar(max)");
 
+                    b.Property<string>("FacebookLink")
+                        .HasColumnType("nvarchar(max)");
+
                     b.Property<string>("FullName")
                         .HasColumnType("nvarchar(max)");
 
                     b.Property<int?>("Gender")
                         .HasColumnType("int");
 
+                    b.Property<string>("GitHubLink")
+                        .HasColumnType("nvarchar(max)");
+
                     b.Property<string>("Hobby")
                         .HasColumnType("nvarchar(max)");
 
-                    b.Property<Guid?>("LocationId")
-                        .HasColumnType("uniqueidentifier");
+                    b.Property<string>("InstLink")
+                        .HasColumnType("nvarchar(max)");
+
+                    b.Property<string>("Location")
+                        .HasColumnType("nvarchar(max)");
 
                     b.Property<string>("Password")
                         .IsRequired()
@@ -157,15 +211,28 @@ namespace PhotoZone.Db.Migrations
                     b.Property<Guid?>("SubscribesId")
                         .HasColumnType("uniqueidentifier");
 
+                    b.Property<Guid?>("SubscribtionsId")
+                        .HasColumnType("uniqueidentifier");
+
+                    b.Property<string>("TikTokLink")
+                        .HasColumnType("nvarchar(max)");
+
                     b.Property<string>("UserName")
                         .IsRequired()
                         .HasColumnType("nvarchar(max)");
 
                     b.HasKey("Id");
 
-                    b.HasIndex("LocationId");
-
                     b.ToTable("Users");
+                });
+
+            modelBuilder.Entity("PhotoZone.Entities.Comment", b =>
+                {
+                    b.HasOne("PhotoZone.Entities.Place", null)
+                        .WithMany("Comments")
+                        .HasForeignKey("PlaceId")
+                        .OnDelete(DeleteBehavior.Cascade)
+                        .IsRequired();
                 });
 
             modelBuilder.Entity("PhotoZone.Entities.Images", b =>
@@ -184,30 +251,34 @@ namespace PhotoZone.Db.Migrations
                     b.Navigation("Location");
                 });
 
-            modelBuilder.Entity("PhotoZone.Entities.Subscribes", b =>
+            modelBuilder.Entity("PhotoZone.Entities.Subscribers", b =>
                 {
                     b.HasOne("PhotoZone.Entities.User", null)
                         .WithMany("Subscribes")
-                        .HasForeignKey("UserId");
+                        .HasForeignKey("UserId")
+                        .OnDelete(DeleteBehavior.Cascade)
+                        .IsRequired();
                 });
 
-            modelBuilder.Entity("PhotoZone.Entities.User", b =>
+            modelBuilder.Entity("PhotoZone.Entities.Subscribtions", b =>
                 {
-                    b.HasOne("PhotoZone.Entities.Location", "Location")
-                        .WithMany()
-                        .HasForeignKey("LocationId");
-
-                    b.Navigation("Location");
+                    b.HasOne("PhotoZone.Entities.User", null)
+                        .WithMany("Subscrioptions")
+                        .HasForeignKey("UserId");
                 });
 
             modelBuilder.Entity("PhotoZone.Entities.Place", b =>
                 {
+                    b.Navigation("Comments");
+
                     b.Navigation("Images");
                 });
 
             modelBuilder.Entity("PhotoZone.Entities.User", b =>
                 {
                     b.Navigation("Subscribes");
+
+                    b.Navigation("Subscrioptions");
                 });
 #pragma warning restore 612, 618
         }

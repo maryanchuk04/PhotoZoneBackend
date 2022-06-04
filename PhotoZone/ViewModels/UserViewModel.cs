@@ -14,6 +14,8 @@ public class UserViewModel
 
     public int Age { get; set; }
 
+    public string Phone { get; set; }
+
     public Gender Gender { get; set; }
 
     public string Location { get; set; }

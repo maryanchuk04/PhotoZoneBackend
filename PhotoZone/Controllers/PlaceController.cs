@@ -23,7 +23,7 @@ public class PlaceController : ControllerBase
     [HttpGet("[action]")]
     public IActionResult GetAllPlaces()
     {
-        var res = _placeService.GetAllPlaces();
+        List<PlaceDto> res = _placeService.GetAllPlaces();
 
         return Ok(_mapper.Map<List<PlaceDto>,List<PlaceViewModel>>(res));
     }
@@ -52,6 +52,22 @@ public class PlaceController : ControllerBase
         {
             _placeService.AddNewPlace(_mapper.Map<PlaceViewModel, PlaceDto>(placeViewModel));
             return Ok();
+        }
+        catch (PhotoZoneException e)
+        {
+            return BadRequest(new
+            {
+                error = e.Message
+            });
+        }
+    }
+
+    [HttpGet("[action]/{id}")]
+    public IActionResult GetAllPlacesByUserId(Guid id)
+    {
+        try
+        {
+            return Ok(_placeService.GetAllPlacesByUserId(id));
         }
         catch (PhotoZoneException e)
         {

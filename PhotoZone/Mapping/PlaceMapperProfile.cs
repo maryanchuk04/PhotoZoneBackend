@@ -12,7 +12,7 @@ public class PlaceMapperProfile : Profile
     {
         CreateMap<Place, PlaceDto>()
             .ForMember(dest => dest.Location, opts => opts.MapFrom(src => MapLocation(src)))
-            .ForMember(dest => dest.Owner, opts => opts.MapFrom(src => src.Owner))
+            .ForMember(dest => dest.OwnerId, opts => opts.MapFrom(src => src.OwnerId))
             .ForMember(dest => dest.Title, opts => opts.MapFrom(src => src.Title))
             .ForMember(dest => dest.Description, opts => opts.MapFrom(src => src.Description))
             .ForMember(dest => dest.Rate, opts => opts.MapFrom(src => src.Rate))
@@ -22,7 +22,7 @@ public class PlaceMapperProfile : Profile
 
         CreateMap<PlaceViewModel, PlaceDto>()
             .ForMember(dest => dest.Location, opts => opts.MapFrom(src => MapLocation(src)))
-            .ForMember(dest => dest.Owner, opts => opts.MapFrom(src => src.Owner))
+            .ForMember(dest => dest.OwnerId, opts => opts.MapFrom(src => src.Owner))
             .ForMember(dest => dest.Title, opts => opts.MapFrom(src => src.Title))
             .ForMember(dest => dest.Description, opts => opts.MapFrom(src => src.Description))
             .ForMember(dest => dest.Rate, opts => opts.MapFrom(src => src.Rating))
@@ -31,7 +31,7 @@ public class PlaceMapperProfile : Profile
 
         CreateMap<PlaceDto, Place>()
             .ForMember(dest => dest.Location, opts => opts.MapFrom(src => MapLocation(src)))
-            .ForMember(dest => dest.Owner, opts => opts.MapFrom(src => src.Owner))
+            .ForMember(dest => dest.OwnerId, opts => opts.MapFrom(src => src.OwnerId))
             .ForMember(dest => dest.Title, opts => opts.MapFrom(src => src.Title))
             .ForMember(dest => dest.Description, opts => opts.MapFrom(src => src.Description))
             .ForMember(dest => dest.Rate, opts => opts.MapFrom(src => src.Rate))
@@ -40,14 +40,12 @@ public class PlaceMapperProfile : Profile
 
         CreateMap<PlaceDto, PlaceViewModel>()
             .ForMember(dest => dest.Location, opts => opts.MapFrom(src => MapLocation(src)))
-            .ForMember(dest => dest.Owner, opts => opts.MapFrom(src => src.Owner))
+            .ForMember(dest => dest.Owner, opts => opts.MapFrom(src => src.OwnerId))
             .ForMember(dest => dest.Title, opts => opts.MapFrom(src => src.Title))
             .ForMember(dest => dest.Description, opts => opts.MapFrom(src => src.Description))
             .ForMember(dest => dest.Rating, opts => opts.MapFrom(src => src.Rate))
             .ForMember(dest => dest.Images, opts => opts.MapFrom(src => MapImages(src)))
-            .ForMember(dest => dest.MainImage, opts => opts.MapFrom(src => src.MainImage))
-            .ForMember(dest => dest.Comments, opts => opts.MapFrom(src => MapComments(src)));
-
+            .ForMember(dest => dest.MainImage, opts => opts.MapFrom(src => src.MainImage));
     }
 
     private static LocationDto MapLocation(PlaceViewModel placeViewModel)
@@ -86,19 +84,15 @@ public class PlaceMapperProfile : Profile
         return null;
     }
 
-    private static ICollection<Images> MapImages(PlaceDto placeDto)
+    private static List<string> MapImages(PlaceDto placeDto)
     {
         if (placeDto.Images != null)
         {
-            ICollection<Images> images = new List<Images>();
+            List<string> images = new List<string>();
+
             foreach (var image in placeDto.Images)
             {
-                images.Add( new Images()
-                {
-                    PlaceId = placeDto.Id,
-                    Id = image.Id,
-                    Image = image.Image
-                });
+                images.Add(image.Image);
             }
 
             return images;
@@ -107,14 +101,13 @@ public class PlaceMapperProfile : Profile
         return null;
     }
 
-    private static Location MapLocation(PlaceDto placeDto)
+    private static LocationViewModel MapLocation(PlaceDto placeDto)
     {
         if (placeDto.Location != null)
         {
-            return new Location
+            return new LocationViewModel()
             {
-                Id = Guid.NewGuid(),
-                LocationName = placeDto.Location.LocationName,
+                LocationString = placeDto.Location.LocationName,
                 Latitude = placeDto.Location.Latitude,
                 Longitude = placeDto.Location.Longitude
             };

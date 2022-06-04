@@ -14,4 +14,7 @@ public interface IPlaceService
 
     List<PlaceDto> GetAllPlaces();
 
+    List<PlaceDto> GetAllPlacesByUserId(Guid id);
+
+
 }
