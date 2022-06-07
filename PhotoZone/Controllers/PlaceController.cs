@@ -50,7 +50,7 @@ public class PlaceController : ControllerBase
 
         try
         {
-            return Ok(_placeService.AddNewPlace(_mapper.Map<PlaceViewModel, PlaceDto>(placeViewModel)););
+            return Ok(_placeService.AddNewPlace(_mapper.Map<PlaceViewModel, PlaceDto>(placeViewModel)));
         }
         catch (PhotoZoneException e)
         {
