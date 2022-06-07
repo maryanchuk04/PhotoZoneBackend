@@ -30,12 +30,12 @@ public class PlaceMapperProfile : Profile
             .ForMember(dest => dest.MainImage, opts => opts.MapFrom(src => src.MainImage));
 
         CreateMap<PlaceDto, Place>()
-            .ForMember(dest => dest.Location, opts => opts.MapFrom(src => MapLocation(src)))
+            .ForMember(dest => dest.Location, opts => opts.MapFrom(src => MapLocations(src)))
             .ForMember(dest => dest.OwnerId, opts => opts.MapFrom(src => src.OwnerId))
             .ForMember(dest => dest.Title, opts => opts.MapFrom(src => src.Title))
             .ForMember(dest => dest.Description, opts => opts.MapFrom(src => src.Description))
             .ForMember(dest => dest.Rate, opts => opts.MapFrom(src => src.Rate))
-            .ForMember(dest => dest.Images, opts => opts.MapFrom(src => MapImages(src)))
+            .ForMember(dest => dest.Images, opts => opts.MapFrom(src => MapImagess(src)))
             .ForMember(dest => dest.MainImage, opts => opts.MapFrom(src => src.MainImage));
 
         CreateMap<PlaceDto, PlaceViewModel>()
@@ -107,6 +107,7 @@ public class PlaceMapperProfile : Profile
         {
             return new LocationViewModel()
             {
+
                 LocationString = placeDto.Location.LocationName,
                 Latitude = placeDto.Location.Latitude,
                 Longitude = placeDto.Location.Longitude
@@ -169,5 +170,40 @@ public class PlaceMapperProfile : Profile
         return comments;
     }
 
+    public static Location MapLocations(PlaceDto placeDto)
+    {
+        if (placeDto.Location != null)
+        {
+            return new Location()
+            {
+                Id = placeDto.Location.Id,
+                LocationName = placeDto.Location.LocationName,
+                Latitude = placeDto.Location.Latitude,
+                Longitude = placeDto.Location.Longitude
+            };
+        }
+
+        return null;
+    }
+
+    private static ICollection<Images> MapImagess(PlaceDto placeDto)
+    {
+        if (placeDto.Images != null)
+        {
+            ICollection<Images> imagesDtos = new List<Images>();
+            foreach (var image in placeDto.Images)
+            {
+                imagesDtos.Add(new Images()
+                {
+                    Id = Guid.NewGuid(),
+                    Image  = image.Image
+                });
+            }
+
+            return imagesDtos;
+        }
+
+        return null;
+    }
 
 }

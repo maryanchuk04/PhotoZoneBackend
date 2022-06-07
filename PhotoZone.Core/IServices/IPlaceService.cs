@@ -6,7 +6,7 @@ public interface IPlaceService
 {
     double MarkPlace(double mark);
 
-    void AddNewPlace(PlaceDto placeDto);
+    Guid AddNewPlace(PlaceDto placeDto);
 
     void DeletePlace(Guid placeId);
 

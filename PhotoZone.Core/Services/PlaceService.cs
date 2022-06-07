@@ -20,7 +20,7 @@ public class PlaceService : BaseService<Place> , IPlaceService
         throw new NotImplementedException();
     }
 
-    public void AddNewPlace(PlaceDto placeDto)
+    public Guid AddNewPlace(PlaceDto placeDto)
     {
         placeDto.Id = Guid.NewGuid();
         var place = Mapper.Map<PlaceDto, Place>(placeDto);
@@ -31,6 +31,8 @@ public class PlaceService : BaseService<Place> , IPlaceService
         Insert(place);
 
         Context.SaveChanges();
+
+        return place.Id;
     }
 
     public void DeletePlace(Guid placeId)
