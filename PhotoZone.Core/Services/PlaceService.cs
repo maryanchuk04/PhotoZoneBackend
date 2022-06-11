@@ -85,4 +85,16 @@ public class PlaceService : BaseService<Place> , IPlaceService
 
         return Mapper.Map<List<PlaceDto>>(places);
     }
+
+    public List<PlaceDto> SearchPlaces(string searchText)
+    {
+        var places = Context.Places
+            .Include(x=>x.Images)
+            .Include(x=>x.Location)
+            .ToList();
+
+        var res = places.FindAll(x => x.Title.Contains(searchText));
+
+        return Mapper.Map<List<Place>, List<PlaceDto>>(res);
+    }
 }

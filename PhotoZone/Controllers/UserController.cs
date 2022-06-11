@@ -198,5 +198,4 @@ public class UserController : ControllerBase
         return Ok(_userServices.SearchUsers(searchViewModel.searchText));
     }
 
-
 }

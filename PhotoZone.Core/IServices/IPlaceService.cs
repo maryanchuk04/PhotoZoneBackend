@@ -16,5 +16,5 @@ public interface IPlaceService
 
     List<PlaceDto> GetAllPlacesByUserId(Guid id);
 
-
+    List<PlaceDto> SearchPlaces(string searchText);
 }
