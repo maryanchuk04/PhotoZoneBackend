@@ -182,4 +182,13 @@ public class UserService : BaseService<User>, IUserServices
     {
         return Mapper.Map<List<User>, List<UserDto>>(Context.Users.ToList());
     }
+
+    public List<UserDto> SearchUsers(string searchText)
+    {
+        var allUsers = Context.Users.ToList();
+
+        var res = allUsers.FindAll(x => x.UserName.Contains(searchText) || x.FullName.Contains(searchText));
+
+        return Mapper.Map<List<User>, List<UserDto>>(res);
+    }
 }

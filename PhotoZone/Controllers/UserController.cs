@@ -191,5 +191,12 @@ public class UserController : ControllerBase
         return Ok(_userServices.GetAllUsers());
     }
 
+    [HttpPost("[action]")]
+    [AllowAnonymous]
+    public IActionResult SearchUsers(SearchViewModel searchViewModel)
+    {
+        return Ok(_userServices.SearchUsers(searchViewModel.searchText));
+    }
+
 
 }

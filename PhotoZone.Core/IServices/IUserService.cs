@@ -32,4 +32,7 @@ public interface IUserServices
     Task AddNewSubscribe(Guid subscriberId);
 
     List<UserDto> GetUsersByIds(List<Guid> Ids);
+
+    List<UserDto> SearchUsers(string searchText);
+
 }
