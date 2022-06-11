@@ -7,6 +7,8 @@ namespace PhotoZone.IServices;
 
 public interface IUserServices
 {
+    List<UserDto> GetAllUsers();
+
     string Registration(string email, string password, string userName);
 
     string Authenticate(string email, string password);

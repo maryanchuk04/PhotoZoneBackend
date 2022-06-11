@@ -184,5 +184,12 @@ public class UserController : ControllerBase
         return Ok(_mapper.Map<UserDto, UserViewModel>(res));
     }
 
+    [HttpGet("[action]")]
+    [AllowAnonymous]
+    public IActionResult GetAllUsers()
+    {
+        return Ok(_userServices.GetAllUsers());
+    }
+
 
 }

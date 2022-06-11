@@ -177,4 +177,9 @@ public class UserService : BaseService<User>, IUserServices
 
         return Mapper.Map<List<UserDto>>(users.ToList());
     }
+
+    public List<UserDto> GetAllUsers()
+    {
+        return Mapper.Map<List<User>, List<UserDto>>(Context.Users.ToList());
+    }
 }
