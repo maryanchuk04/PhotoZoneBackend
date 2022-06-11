@@ -76,4 +76,10 @@ public class PlaceController : ControllerBase
             });
         }
     }
+
+    [HttpPost("[action]")]
+    public IActionResult SearchPlaces(SearchViewModel searchViewModel)
+    {
+        return Ok(_placeService.SearchPlaces(searchViewModel.searchText));
+    }
 }
