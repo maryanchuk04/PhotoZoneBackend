@@ -204,7 +204,7 @@ public class UserService : BaseService<User>, IUserServices
         user.UserName = userDto.UserName == null ? user.UserName : userDto.UserName;
         user.Phone = userDto.Phone == null ? user.Phone : userDto.Phone;
         user.Hobby = userDto.Hobby == null ? user.Hobby : userDto.Phone;
-
+        user.Location = userDto.Location == null ? user.Location : userDto.Location;
 
         Update(user);
 
