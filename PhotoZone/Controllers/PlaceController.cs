@@ -86,6 +86,7 @@ public class PlaceController : ControllerBase
     [HttpDelete("[action]/{id}")]
     public IActionResult DeletePlace(Guid id)
     {
+        _placeService.DeletePlace(id);
         return Ok();
     }
 }
