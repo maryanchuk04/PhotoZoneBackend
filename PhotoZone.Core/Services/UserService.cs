@@ -102,7 +102,7 @@ public class UserService : BaseService<User>, IUserServices
         await Context.SaveChangesAsync();
     }
 
-    public async Task EditAvatar(string Avatar)
+    public async Task<string> ChangeAvatar(string Avatar)
     {
         var user = CurrentUser();
 
@@ -111,6 +111,8 @@ public class UserService : BaseService<User>, IUserServices
         Context.Update(user);
 
         await Context.SaveChangesAsync();
+
+        return user.Avatar;
     }
 
     public string RefreshToken()
@@ -191,4 +193,23 @@ public class UserService : BaseService<User>, IUserServices
 
         return Mapper.Map<List<User>, List<UserDto>>(res);
     }
+
+    public UserDto SaveUserInfo(UserDto userDto)
+    {
+        var user = Context.Users.FirstOrDefault(x => x.Id == _securityContext.GetCurrentUserId());
+
+        user.Birthday = userDto.Birthday == null ? user.Birthday : userDto.Birthday;
+        user.Gender = userDto.Gender == null ? user.Gender : userDto.Gender;
+        user.FullName = userDto.FullName == null ? user.FullName : userDto.FullName;
+        user.UserName = userDto.UserName == null ? user.UserName : userDto.UserName;
+        user.Phone = userDto.Phone == null ? user.Phone : userDto.Phone;
+        user.Hobby = userDto.Hobby == null ? user.Hobby : userDto.Phone;
+
+
+        Update(user);
+
+        Context.SaveChanges();
+        return Mapper.Map<User, UserDto>(user);
+    }
+
 }

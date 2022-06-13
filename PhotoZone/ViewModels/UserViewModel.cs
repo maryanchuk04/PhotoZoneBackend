@@ -24,7 +24,7 @@ public class UserViewModel
 
     public int SubscriptionCount { get; set; }
 
-    public DateTime Birthday { get; set; }
+    public DateTime? Birthday { get; set; }
 
     public string Hobby { get; set; }
 

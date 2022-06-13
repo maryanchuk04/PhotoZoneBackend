@@ -92,14 +92,6 @@ public class UserController : ControllerBase
     }
 
     [HttpPost("[action]")]
-    public async Task<IActionResult> EditAvatar(AvatarViewModel avatarViewModel)
-    {
-        await _userServices.EditAvatar(avatarViewModel.Avatar);
-        return Ok();
-    }
-
-
-    [HttpPost("[action]")]
     public async Task<IActionResult> AddNewSubscribe(SubscribeViewModel subscribeViewModel)
     {
 
@@ -196,6 +188,27 @@ public class UserController : ControllerBase
     public IActionResult SearchUsers(SearchViewModel searchViewModel)
     {
         return Ok(_userServices.SearchUsers(searchViewModel.searchText));
+    }
+
+    [HttpPost("[action]")]
+    public IActionResult SaveUserInfo(UserGeneralInfoViewModel userGeneralInfoViewModel)
+    {
+        var userDto = new UserDto()
+        {
+            FullName = userGeneralInfoViewModel.FullName,
+            Birthday = userGeneralInfoViewModel.Birthday,
+            Gender = userGeneralInfoViewModel.Gender,
+            Hobby = userGeneralInfoViewModel.Hobby,
+            UserName = userGeneralInfoViewModel.UserName,
+            Phone = userGeneralInfoViewModel.Phone,
+        };
+        return Ok(_userServices.SaveUserInfo(userDto));
+    }
+
+    [HttpPost("[action]")]
+    public IActionResult ChangeAvatar(AvatarViewModel avatarViewModel)
+    {
+        return Ok(_userServices.ChangeAvatar(avatarViewModel.Avatar));
     }
 
 }

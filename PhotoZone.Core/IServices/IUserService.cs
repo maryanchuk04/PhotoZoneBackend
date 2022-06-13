@@ -23,7 +23,7 @@ public interface IUserServices
 
     Task EditUserName(string username);
 
-    Task EditAvatar(string Avatar);
+    Task<string> ChangeAvatar(string Avatar);
 
     UserDto GetUserInfoById(Guid id);
 
@@ -34,5 +34,7 @@ public interface IUserServices
     List<UserDto> GetUsersByIds(List<Guid> Ids);
 
     List<UserDto> SearchUsers(string searchText);
+
+    UserDto SaveUserInfo(UserDto userDto);
 
 }
