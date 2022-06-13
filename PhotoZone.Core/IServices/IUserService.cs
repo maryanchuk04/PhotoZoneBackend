@@ -37,4 +37,6 @@ public interface IUserServices
 
     UserDto SaveUserInfo(UserDto userDto);
 
+    UserDto SaveUserSocials(UserDto userDto);
+
 }

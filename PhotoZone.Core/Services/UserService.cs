@@ -212,4 +212,20 @@ public class UserService : BaseService<User>, IUserServices
         return Mapper.Map<User, UserDto>(user);
     }
 
+    public UserDto SaveUserSocials(UserDto userDto)
+    {
+        var user = Context.Users.FirstOrDefault(x => x.Id == _securityContext.GetCurrentUserId());
+
+        user.InstLink = userDto.InstLink == null ? user.InstLink : userDto.InstLink;
+        user.FacebookLink = userDto.FacebookLink == null ? user.FacebookLink : userDto.FacebookLink;
+        user.GitHubLink = userDto.GitHubLink == null ? user.GitHubLink : userDto.GitHubLink;
+        user.TikTokLink = userDto.TikTokLink == null ? user.TikTokLink : userDto.TikTokLink;
+
+        Update(user);
+
+        Context.SaveChanges();
+        return Mapper.Map<User, UserDto>(user);
+
+    }
+
 }

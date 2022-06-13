@@ -39,6 +39,8 @@ public class PlaceService : BaseService<Place> , IPlaceService
     {
         var deletePlace = Context.Places
             .Include(x => x.Location)
+            .Include(x=>x.Images)
+            .Include(x=>x.Comments)
             .FirstOrDefault(x => x.Id == placeId);
         if (deletePlace != null)
         {

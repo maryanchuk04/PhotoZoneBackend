@@ -82,4 +82,10 @@ public class PlaceController : ControllerBase
     {
         return Ok(_placeService.SearchPlaces(searchViewModel.searchText));
     }
+
+    [HttpDelete("[action]/{id}")]
+    public IActionResult DeletePlace(Guid id)
+    {
+        return Ok();
+    }
 }

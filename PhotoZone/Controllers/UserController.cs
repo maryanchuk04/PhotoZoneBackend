@@ -211,4 +211,16 @@ public class UserController : ControllerBase
         return Ok(_userServices.ChangeAvatar(avatarViewModel.Avatar));
     }
 
+    [HttpPost("[action]")]
+    public IActionResult SaveUserSocials(UserSocialsViewModel socialsViewModel)
+    {
+        var userDto = new UserDto()
+        {
+           TikTokLink = socialsViewModel.TikTokLink,
+           FacebookLink = socialsViewModel.FacebookLink,
+           GitHubLink = socialsViewModel.GitHubLink,
+           InstLink = socialsViewModel.InstLink
+        };
+        return Ok(_userServices.SaveUserSocials(userDto));
+    }
 }
