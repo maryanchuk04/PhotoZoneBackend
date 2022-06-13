@@ -45,6 +45,7 @@ public class PlaceService : BaseService<Place> , IPlaceService
         if (deletePlace != null)
         {
             Delete(deletePlace);
+            Context.SaveChanges();
         }
         else throw new PhotoZoneException("Error when you want delete place");
     }

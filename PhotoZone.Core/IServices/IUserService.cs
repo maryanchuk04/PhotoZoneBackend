@@ -23,7 +23,7 @@ public interface IUserServices
 
     Task EditUserName(string username);
 
-    Task<string> ChangeAvatar(string Avatar);
+    string ChangeAvatar(string Avatar);
 
     UserDto GetUserInfoById(Guid id);
 

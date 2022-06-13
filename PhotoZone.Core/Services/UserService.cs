@@ -102,7 +102,7 @@ public class UserService : BaseService<User>, IUserServices
         await Context.SaveChangesAsync();
     }
 
-    public async Task<string> ChangeAvatar(string Avatar)
+    public string ChangeAvatar(string Avatar)
     {
         var user = CurrentUser();
 
@@ -110,7 +110,7 @@ public class UserService : BaseService<User>, IUserServices
 
         Context.Update(user);
 
-        await Context.SaveChangesAsync();
+        Context.SaveChanges();
 
         return user.Avatar;
     }
