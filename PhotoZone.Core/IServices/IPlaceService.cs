@@ -18,5 +18,5 @@ public interface IPlaceService
 
     List<PlaceDto> SearchPlaces(string searchText);
 
-    PlaceDto WriteComment(Guid id, Guid userId, string CommentText);
+    PlaceDto WriteComment(Guid id, string CommentText);
 }

@@ -18,7 +18,7 @@ public class PlaceMapperProfile : Profile
             .ForMember(dest => dest.Rate, opts => opts.MapFrom(src => src.Rate))
             .ForMember(dest => dest.Images, opts => opts.MapFrom(src => MapImages(src)))
             .ForMember(dest => dest.MainImage, opts => opts.MapFrom(src => src.MainImage))
-            .ForMember(dest => dest.Comments, opts => opts.MapFrom(src => src.Comments));
+            .ForMember(dest => dest.Comments, opts => opts.MapFrom(src => MapComments(src)));
 
         CreateMap<PlaceViewModel, PlaceDto>()
             .ForMember(dest => dest.Location, opts => opts.MapFrom(src => MapLocation(src)))
@@ -204,6 +204,30 @@ public class PlaceMapperProfile : Profile
         }
 
         return null;
+    }
+
+
+    private static ICollection<CommentDto> MapComments(Place place)
+    {
+        if (place.Comments.Count == 0)
+        {
+            return null;
+        }
+
+        ICollection<CommentDto> commentDtos = new List<CommentDto>();
+
+        foreach (var comment in place.Comments)
+        {
+            commentDtos.Add(new CommentDto()
+            {
+                Id = comment.Id,
+                CommentText = comment.CommentText,
+                PlaceId = comment.PlaceId,
+                UserId = comment.UserId
+            });
+        }
+
+        return commentDtos;
     }
 
 }

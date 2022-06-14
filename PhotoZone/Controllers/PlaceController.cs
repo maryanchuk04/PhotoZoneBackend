@@ -99,10 +99,10 @@ public class PlaceController : ControllerBase
     }
 
     [Authorize]
-    [HttpPost("[action]/{id}/{userId}")]
-    public IActionResult WriteComment(Guid id, Guid userId, CommentViewModel commentViewModel)
+    [HttpPost("[action]/{id}")]
+    public IActionResult WriteComment(Guid id, CommentViewModel commentViewModel)
     {
-        var res = _placeService.WriteComment(id, userId, commentViewModel.CommentText);
+        var res = _placeService.WriteComment(id, commentViewModel.CommentText);
         return Ok(res.Comments.ToList());
     }
 

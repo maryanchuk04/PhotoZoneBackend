@@ -11,8 +11,13 @@ namespace PhotoZone.Services;
 
 public class PlaceService : BaseService<Place> , IPlaceService
 {
-    public PlaceService(AppDbContext context, IMapper mapper) : base(context, mapper)
+    private readonly ICommentService _commentService;
+    private readonly ISecurityContext _securityContext;
+
+    public PlaceService(AppDbContext context, IMapper mapper, ICommentService commentService, ISecurityContext securityContext) : base(context, mapper)
     {
+        _commentService = commentService;
+        _securityContext = securityContext;
     }
 
     public void MarkPlace(Guid id, double mark)
@@ -107,29 +112,16 @@ public class PlaceService : BaseService<Place> , IPlaceService
         return Mapper.Map<List<Place>, List<PlaceDto>>(res);
     }
 
-    public PlaceDto WriteComment(Guid id, Guid userId, string CommentText)
+    public PlaceDto WriteComment(Guid id, string CommentText)
     {
+
+        var comment = _commentService.WriteComment(id, _securityContext.GetCurrentUserId(), CommentText);
+
         var place = Context.Places
             .Include(x => x.Comments)
-            .Include(x=>x.Images)
-            .Include(x=>x.Location)
+            .Include(x => x.Images)
+            .Include(x => x.Location)
             .FirstOrDefault(x => x.Id == id);
-
-        if (place.Comments.Count == 0)
-        {
-            place.Comments = new List<Comment>();
-        }
-
-        place.Comments.Add(new Comment()
-        {
-            CommentText = CommentText,
-            Id = Guid.NewGuid(),
-            PlaceId = id,
-            UserId = userId
-        });
-
-        Context.Places.Update(place);
-        Context.SaveChanges();
 
         return Mapper.Map<Place, PlaceDto>(place);
     }
