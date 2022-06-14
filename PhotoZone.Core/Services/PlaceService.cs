@@ -65,6 +65,7 @@ public class PlaceService : BaseService<Place> , IPlaceService
     {
         var place = Context.Places.Include(x=>x.Images)
             .Include(x=>x.Location)
+            .Include(x=>x.Comments)
             .FirstOrDefault(x => x.Id == placeId);
         if(place != null)
             return Mapper.Map<Place,PlaceDto>(place);
