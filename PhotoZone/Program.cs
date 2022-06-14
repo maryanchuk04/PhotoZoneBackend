@@ -41,6 +41,7 @@ builder.Services.AddScoped<ISubscribesService, SubscribesService>();
 builder.Services.AddScoped<ISubscribtionService, SubscribtionService>();
 builder.Services.AddScoped<IMailService, MailService>();
 builder.Services.AddScoped<ICommentService, CommentService>();
+builder.Services.AddScoped<IImagesService, ImagesService>();
 #endregion
 
 
