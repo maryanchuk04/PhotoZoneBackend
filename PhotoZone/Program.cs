@@ -1,5 +1,6 @@
 using System.Reflection;
 using System.Text;
+using AutoMapper;
 using Microsoft.AspNetCore.Authentication.JwtBearer;
 using Microsoft.EntityFrameworkCore;
 using Microsoft.Extensions.DependencyInjection;
@@ -38,6 +39,7 @@ builder.Services.AddScoped<IPlaceService, PlaceService>();
 builder.Services.AddSingleton<IHttpContextAccessor, HttpContextAccessor>();
 builder.Services.AddScoped<ISubscribesService, SubscribesService>();
 builder.Services.AddScoped<ISubscribtionService, SubscribtionService>();
+builder.Services.AddScoped<IMailService, MailService>();
 #endregion
 
 

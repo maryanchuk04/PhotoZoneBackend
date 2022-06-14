@@ -22,17 +22,21 @@ public class UserController : ControllerBase
     private readonly ISubscribesService _subscribesService;
     private readonly ISubscribtionService _subscribtionService;
     private readonly ISecurityContext _securityContext;
+    private readonly IMailService _mailService;
+
     public UserController(IUserServices userServices,
         IMapper mapper,
         ISubscribesService subscribesService,
         ISubscribtionService subscribtionService,
-        ISecurityContext securityContext)
+        ISecurityContext securityContext,
+        IMailService mailService)
     {
         _subscribesService = subscribesService;
         _subscribtionService = subscribtionService;
         _userServices = userServices;
         _mapper = mapper;
         _securityContext = securityContext;
+        _mailService = mailService;
     }
 
     [HttpPost("[action]")]
@@ -43,6 +47,8 @@ public class UserController : ControllerBase
         {
             var token = _userServices.Registration(registerViewModel.Email, registerViewModel.Password,
                 registerViewModel.UserName);
+
+            _mailService.sendMailRegistration(registerViewModel.Email,registerViewModel.UserName);
 
             return Ok(new
             {
@@ -222,5 +228,23 @@ public class UserController : ControllerBase
            InstLink = socialsViewModel.InstLink
         };
         return Ok(_userServices.SaveUserSocials(userDto));
+    }
+
+    [HttpPost("[action]")]
+    [AllowAnonymous]
+    public IActionResult SendFeedback(FeedbackViewModel feedbackViewModel)
+    {
+        try
+        {
+            _mailService.sendFeedback(feedbackViewModel.Email, feedbackViewModel.UserName, feedbackViewModel.Text);
+            return Ok();
+        }
+        catch (PhotoZoneException e)
+        {
+            return BadRequest(new
+            {
+                error = e
+            });
+        }
     }
 }

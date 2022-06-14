@@ -4,7 +4,7 @@ namespace PhotoZone.Core.IServices;
 
 public interface IPlaceService
 {
-    double MarkPlace(double mark);
+    void MarkPlace(Guid id, double mark);
 
     Guid AddNewPlace(PlaceDto placeDto);
 
@@ -17,4 +17,6 @@ public interface IPlaceService
     List<PlaceDto> GetAllPlacesByUserId(Guid id);
 
     List<PlaceDto> SearchPlaces(string searchText);
+
+    PlaceDto WriteComment(Guid id, Guid userId, string CommentText);
 }

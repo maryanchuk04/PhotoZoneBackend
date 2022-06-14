@@ -1,4 +1,5 @@
 using AutoMapper;
+using Microsoft.AspNetCore.Authorization;
 using Microsoft.AspNetCore.Mvc;
 using PhotoZone.Core.DTOs;
 using PhotoZone.Core.Exceptions;
@@ -25,7 +26,7 @@ public class PlaceController : ControllerBase
     {
         List<PlaceDto> res = _placeService.GetAllPlaces();
 
-        return Ok(_mapper.Map<List<PlaceDto>,List<PlaceViewModel>>(res));
+        return Ok(res);
     }
 
     [HttpGet("[action]/{id}")]
@@ -89,4 +90,21 @@ public class PlaceController : ControllerBase
         _placeService.DeletePlace(id);
         return Ok();
     }
+
+    [HttpPost("[action]/{id}")]
+    public IActionResult MarkPlace(Guid id, RatingViewModel ratingView)
+    {
+        _placeService.MarkPlace(id, ratingView.Rating);
+        return Ok();
+    }
+
+    [Authorize]
+    [HttpPost("[action]/{id}/{userId}")]
+    public IActionResult WriteComment(Guid id, Guid userId, CommentViewModel commentViewModel)
+    {
+        var res = _placeService.WriteComment(id, userId, commentViewModel.CommentText);
+        return Ok(res.Comments.ToList());
+    }
+
+
 }

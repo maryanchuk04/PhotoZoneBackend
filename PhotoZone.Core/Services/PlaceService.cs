@@ -15,9 +15,15 @@ public class PlaceService : BaseService<Place> , IPlaceService
     {
     }
 
-    public double MarkPlace(double mark)
+    public void MarkPlace(Guid id, double mark)
     {
-        throw new NotImplementedException();
+        var place = Context.Places.FirstOrDefault(x => x.Id == id);
+
+        place.Rate = (place.Rate + mark) / 2;
+
+        Context.Update(place);
+
+        Context.SaveChanges();
     }
 
     public Guid AddNewPlace(PlaceDto placeDto)
@@ -99,5 +105,32 @@ public class PlaceService : BaseService<Place> , IPlaceService
         var res = places.FindAll(x => x.Title.Contains(searchText));
 
         return Mapper.Map<List<Place>, List<PlaceDto>>(res);
+    }
+
+    public PlaceDto WriteComment(Guid id, Guid userId, string CommentText)
+    {
+        var place = Context.Places
+            .Include(x => x.Comments)
+            .Include(x=>x.Images)
+            .Include(x=>x.Location)
+            .FirstOrDefault(x => x.Id == id);
+
+        if (place.Comments.Count == 0)
+        {
+            place.Comments = new List<Comment>();
+        }
+
+        place.Comments.Add(new Comment()
+        {
+            CommentText = CommentText,
+            Id = Guid.NewGuid(),
+            PlaceId = id,
+            UserId = userId
+        });
+
+        Context.Places.Update(place);
+        Context.SaveChanges();
+
+        return Mapper.Map<Place, PlaceDto>(place);
     }
 }

@@ -13,10 +13,6 @@ public interface IUserServices
 
     string Authenticate(string email, string password);
 
-    Task ChangeAvatar(Guid userid, string avatar);
-
-    Task GetProfileById(Guid userid);
-
     UserDto GetCurrentUserInfo();
 
     IEnumerable<UserDto> GetUsersByIds(IEnumerable<Guid> ids);
@@ -38,5 +34,7 @@ public interface IUserServices
     UserDto SaveUserInfo(UserDto userDto);
 
     UserDto SaveUserSocials(UserDto userDto);
+
+
 
 }
