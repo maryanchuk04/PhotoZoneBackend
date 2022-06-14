@@ -19,4 +19,6 @@ public interface IPlaceService
     List<PlaceDto> SearchPlaces(string searchText);
 
     PlaceDto WriteComment(Guid id, string CommentText);
+
+    PlaceDto AddImageToPlace(Guid id, string image);
 }

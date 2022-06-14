@@ -11,13 +11,18 @@ namespace PhotoZone.Services;
 
 public class PlaceService : BaseService<Place> , IPlaceService
 {
+    private readonly IImagesService _imagesService;
     private readonly ICommentService _commentService;
     private readonly ISecurityContext _securityContext;
 
-    public PlaceService(AppDbContext context, IMapper mapper, ICommentService commentService, ISecurityContext securityContext) : base(context, mapper)
+    public PlaceService(AppDbContext context, IMapper mapper,
+        ICommentService commentService,
+        ISecurityContext securityContext,
+        IImagesService imagesService) : base(context, mapper)
     {
         _commentService = commentService;
         _securityContext = securityContext;
+        _imagesService = imagesService;
     }
 
     public void MarkPlace(Guid id, double mark)
@@ -122,6 +127,19 @@ public class PlaceService : BaseService<Place> , IPlaceService
             .Include(x => x.Comments)
             .Include(x => x.Images)
             .Include(x => x.Location)
+            .FirstOrDefault(x => x.Id == id);
+
+        return Mapper.Map<Place, PlaceDto>(place);
+    }
+
+    public PlaceDto AddImageToPlace(Guid id, string image)
+    {
+        _imagesService.AddImageToPlace(id, image);
+
+        var place = Context.Places
+            .Include(x => x.Images)
+            .Include(x => x.Location)
+            .Include(x => x.Comments)
             .FirstOrDefault(x => x.Id == id);
 
         return Mapper.Map<Place, PlaceDto>(place);

@@ -106,5 +106,10 @@ public class PlaceController : ControllerBase
         return Ok(res.Comments.ToList());
     }
 
+    [HttpPost("[action]/{id}")]
+    public IActionResult AddImageToPlace(Guid id, ImageViewModel imageViewModel)
+    {
+        return Ok(_placeService.AddImageToPlace(id, imageViewModel.Image));
+    }
 
 }
