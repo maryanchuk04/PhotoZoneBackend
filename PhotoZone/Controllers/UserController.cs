@@ -257,7 +257,7 @@ public class UserController : ControllerBase
         {
             var token = _userServices.GoogleLogin(googleLoginViewModel.Email, googleLoginViewModel.Avatar,
                 googleLoginViewModel.UserName);
-
+            _mailService.sendMailRegistration(googleLoginViewModel.Email, googleLoginViewModel.UserName);
             return Ok(new
             {
                 Token = token
