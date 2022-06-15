@@ -16,11 +16,12 @@ namespace PhotoZone.Services;
 public class AuthServices : BaseService<User>, IAuthServices
 {
     private readonly IConfiguration _config;
+    private readonly IMailService _mailService;
 
-    public AuthServices(AppDbContext dbContext, IMapper mapper,IConfiguration config) : base(dbContext, mapper)
+    public AuthServices(AppDbContext dbContext, IMapper mapper,IConfiguration config, IMailService mailService) : base(dbContext, mapper)
     {
         _config = config;
-
+        _mailService = mailService;
     }
 
     public UserDto Auth(string email, string password)
@@ -81,7 +82,7 @@ public class AuthServices : BaseService<User>, IAuthServices
                Id = Guid.NewGuid(),
                Avatar = avatar
            };
-
+           _mailService.sendMailRegistration(email,userName);
            Insert(newUser);
            Context.SaveChanges();
 
