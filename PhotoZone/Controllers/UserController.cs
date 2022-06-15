@@ -255,7 +255,13 @@ public class UserController : ControllerBase
     {
         try
         {
-            return Ok(_userServices.GoogleLogin(googleLoginViewModel.Email, googleLoginViewModel.Avatar, googleLoginViewModel.UserName));
+            var token = _userServices.GoogleLogin(googleLoginViewModel.Email, googleLoginViewModel.Avatar,
+                googleLoginViewModel.UserName);
+
+            return Ok(new
+            {
+                Token = token
+            });
         }
         catch (PhotoZoneException e)
         {
