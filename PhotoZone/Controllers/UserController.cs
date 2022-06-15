@@ -252,8 +252,16 @@ public class UserController : ControllerBase
     [AllowAnonymous]
     public IActionResult GoogleLogin(GoogleLoginViewModel googleLoginViewModel)
     {
-        return Ok();
+        try
+        {
+            return Ok(_userServices.GoogleLogin(googleLoginViewModel.Email, googleLoginViewModel.Avatar, googleLoginViewModel.UserName));
+        }
+        catch (PhotoZoneException e)
+        {
+            return BadRequest(new
+            {
+                error = e
+            });
+        }
     }
-
-
 }
