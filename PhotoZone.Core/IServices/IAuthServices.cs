@@ -10,4 +10,5 @@ public interface IAuthServices
 
     string Authentificate(string email, string password);
 
+    string GoogleLogin(string email, string avatar, string userName);
 }

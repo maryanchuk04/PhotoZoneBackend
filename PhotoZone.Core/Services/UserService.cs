@@ -64,10 +64,6 @@ public class UserService : BaseService<User>, IUserServices
         return (_authServices.Authentificate(email, password));
     }
 
-    public async Task ChangeAvatar(Guid userid, string avatar)
-    {
-
-    }
 
     public async Task GetProfileById(Guid userid)
     {
@@ -228,4 +224,8 @@ public class UserService : BaseService<User>, IUserServices
 
     }
 
+    public string GoogleLogin(string email, string avatar, string userName)
+    {
+        return _authServices.GoogleLogin(email, avatar, userName);
+    }
 }

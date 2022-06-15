@@ -247,4 +247,13 @@ public class UserController : ControllerBase
             });
         }
     }
+
+    [HttpPost("[action]")]
+    [AllowAnonymous]
+    public IActionResult GoogleLogin(GoogleLoginViewModel googleLoginViewModel)
+    {
+        return Ok();
+    }
+
+
 }

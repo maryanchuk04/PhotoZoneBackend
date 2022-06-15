@@ -68,5 +68,32 @@ public class AuthServices : BaseService<User>, IAuthServices
         throw new PhotoZoneException("User Not found");
     }
 
+    public string GoogleLogin(string email, string avatar, string userName)
+    {
+       var user = Context.Users.Where(x => x.Email == email).FirstOrDefault();
 
+       if (user == null)
+       {
+           var newUser = new User()
+           {
+               UserName = userName,
+               Email = email,
+               Id = Guid.NewGuid(),
+               Avatar = avatar
+           };
+
+           Insert(newUser);
+           Context.SaveChanges();
+
+           return GenerateJwt(Mapper.Map<User, UserDto>(newUser));
+
+       }
+
+       if (user.Password != null)
+       {
+           throw new PhotoZoneException("User is alredy exist");
+       }
+
+       return GenerateJwt(Mapper.Map<User, UserDto>(user));
+    }
 }

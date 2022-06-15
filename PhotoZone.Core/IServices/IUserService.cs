@@ -35,6 +35,6 @@ public interface IUserServices
 
     UserDto SaveUserSocials(UserDto userDto);
 
-
+    string GoogleLogin(string email, string avatar, string userName);
 
 }
