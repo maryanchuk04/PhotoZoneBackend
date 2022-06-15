@@ -93,7 +93,11 @@ public class AuthServices : BaseService<User>, IAuthServices
        {
            throw new PhotoZoneException("User is alredy exist");
        }
+       else
+       {
+           return GenerateJwt(Mapper.Map<User, UserDto>(user));
+       }
 
-       return GenerateJwt(Mapper.Map<User, UserDto>(user));
+
     }
 }

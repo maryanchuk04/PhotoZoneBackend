@@ -226,6 +226,14 @@ public class UserService : BaseService<User>, IUserServices
 
     public string GoogleLogin(string email, string avatar, string userName)
     {
-        return _authServices.GoogleLogin(email, avatar, userName);
+        try
+        {
+            return _authServices.GoogleLogin(email, avatar, userName);
+        }
+        catch (Exception e)
+        {
+            throw new PhotoZoneException("Account is already exist");
+        }
+
     }
 }

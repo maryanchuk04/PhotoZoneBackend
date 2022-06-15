@@ -23,6 +23,7 @@ public class UserController : ControllerBase
     private readonly ISubscribtionService _subscribtionService;
     private readonly ISecurityContext _securityContext;
     private readonly IMailService _mailService;
+    private readonly IAuthServices _authServices;
 
     public UserController(IUserServices userServices,
         IMapper mapper,
@@ -243,7 +244,7 @@ public class UserController : ControllerBase
         {
             return BadRequest(new
             {
-                error = e
+                error = e.Message
             });
         }
     }
@@ -260,7 +261,7 @@ public class UserController : ControllerBase
         {
             return BadRequest(new
             {
-                error = e
+                error = e.Message
             });
         }
     }
