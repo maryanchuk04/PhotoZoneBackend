@@ -95,7 +95,13 @@ public class UserController : ControllerBase
     {
         var userdto = _userServices.GetCurrentUserInfo();
 
-        return Ok(userdto);
+        return Ok(_mapper.Map<UserDto,UserViewModel>(userdto));
+    }
+
+    [HttpGet("[action]")]
+    public IActionResult GetCurrentUserId()
+    {
+        return Ok(_securityContext.GetCurrentUserId());
     }
 
     [HttpPost("[action]")]
