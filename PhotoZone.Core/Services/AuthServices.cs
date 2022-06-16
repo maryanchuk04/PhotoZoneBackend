@@ -79,6 +79,7 @@ public class AuthServices : BaseService<User>, IAuthServices
            {
                UserName = userName,
                Email = email,
+               FullName = userName,
                Id = Guid.NewGuid(),
                Avatar = avatar
            };

@@ -185,7 +185,7 @@ public class UserService : BaseService<User>, IUserServices
     {
         var allUsers = Context.Users.ToList();
 
-        var res = allUsers.FindAll(x => x.UserName.Contains(searchText) || x.FullName.Contains(searchText));
+        var res = allUsers.FindAll(x => x.UserName.ToLower().Contains(searchText.ToLower()) || x.FullName.ToLower().Contains(searchText.ToLower()));
 
         return Mapper.Map<List<User>, List<UserDto>>(res);
     }
